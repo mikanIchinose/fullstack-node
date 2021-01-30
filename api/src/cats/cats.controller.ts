@@ -7,18 +7,22 @@ import {
   Redirect,
   HttpStatus,
   HttpException,
-  UseGuards,
   Param,
+  UseGuards,
 } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { Cat } from './interfaces/cats.interface';
 import { CreateCatDto } from './dto/create-cat.dto';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from 'src/common/guards/roles.guard';
 
+@UseGuards(RolesGuard)
 @Controller('cats')
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
   @Post()
+  @Roles('admin')
   async create(@Body() createCatDto: CreateCatDto) {
     this.catsService.create(createCatDto);
     return createCatDto;
