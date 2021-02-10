@@ -1,0 +1,12 @@
+{
+  "name": "fullstack-node",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "ssh://git@github.com/mikanIchinose/fullstack-node.git",
+  "author": "mikan.ichinose <maruisansmai@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.19.0",
+    "prettier": "^2.2.1"
+  }
+}
