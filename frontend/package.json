@@ -1,24 +1,47 @@
 {
   "name": "frontend",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "serve": "vite preview"
+    "clean": "rimraf dist",
+    "dev:pug": "run-p serve watch",
+    "compile:pug": "node ./compiler.js",
+    "watch": "onchange 'src/**/*' -- yarn compile:pug",
+    "serve": "node ./server.js",
+    "lint": "xo",
+    "test": "jest"
   },
-  "xo": {
-    "space": true
+  "prettier": {
+    "semi": false
   },
-  "dependencies": {
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ]
   },
   "devDependencies": {
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "@vitejs/plugin-react-refresh": "^1.1.0",
-    "typescript": "^4.1.2",
-    "vite": "^2.0.0-beta.65",
+    "@babel/core": "^7.12.16",
+    "@babel/preset-env": "^7.12.16",
+    "@types/jest": "^26.0.20",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.19.0",
+    "fs-extra": "^9.1.0",
+    "glob": "^7.1.6",
+    "jest": "^26.6.3",
+    "live-server": "^1.2.1",
+    "npm-run-all": "^4.1.5",
+    "onchange": "^7.1.0",
+    "prettier": "^2.2.1",
+    "pug": "^3.0.0",
+    "pug-lint": "^2.6.0",
+    "rimraf": "^3.0.2",
     "xo": "^0.37.1"
   }
 }
