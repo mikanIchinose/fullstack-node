@@ -1,0 +1,6 @@
+{
+  "puglint.enable": true,
+  "puglint.config": {
+    "extends": "@gabegabegabe/pug-lint-config"
+  }
+}

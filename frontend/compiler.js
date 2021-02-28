@@ -1,7 +1,10 @@
+/**
+ * 型定義
+ * @typedef {import('pug').Options} Options
+ */
 import { promises as fs } from "fs"
 import fse from "fs-extra"
 import pug from "pug"
-import { Options } from "pug"
 import path from "path"
 import glob from "glob"
 
@@ -10,19 +13,24 @@ let dist = "./dist/index.html"
 
 /**
  * pug -> html
- * @param {String} file
- * @param {String} dist
- * @param {Options} option
+ *
+ * @param {String} input_file path to the input file
+ * @param {String} output_file path to the output file
+ * @param {Options} options options of pug
+ * @example
+ * // example without options
+ * pug_compiler("./src/index.pug", "./dist/index.html")
+ * // example with options
+ * pug_compiler("./src/pug/index.pug", "./dist/index.html", { pretty: true })
  */
-export const pug_compiler = async (
-  file = "./src/index.pug",
-  dist = "./dist",
-  option
-) => {
+export const pug_compiler = async (input_file, output_file, options = {}) => {
   try {
-    const input_pug = await fse.readFile(file, "utf-8")
-    const output_html = pug.render(input_pug, option)
-    await fse.outputFile(dist, output_html)
+    const file_status = await fs.lstat(input_file)
+    if (file_status.isFile() && is_pug_file(input_file)) {
+      const input_pug = await fs.readFile(input_file, "utf-8")
+      const html = pug.render(input_pug, options)
+      await fse.outputFile(output_file, html)
+    }
   } catch (error) {
     console.error(error)
   }
@@ -30,7 +38,9 @@ export const pug_compiler = async (
 
 /**
  * 拡張子を確認してpugファイルかどうかを判定
+ *
  * @param {string} file
+ * @returns {boolean}
  */
 export const is_pug_file = (file) => {
   const regexp_pug = /.*\.pug$/
@@ -38,41 +48,51 @@ export const is_pug_file = (file) => {
 }
 
 /**
- * パスを適当なdist配下のディレクトリパスに変換する
- * ./src/index.pug -> ./dist/index.pug
- * ./src/pug/pages/blog.pug -> ./dist/pages/blog.pug
+ *
  * @param {String} path
  * @param {String} src_root
  * @param {String} dist_root
  * @return {String}
+ * @example
+ * src2dist("./src/index.pug")
+ * // => ./dist/index.pug
+ * src2dist("./src/pug/pages/blog.pug")
+ * // => ./dist/pages/blog.pug
  */
-export const src2dist = (path, src_root = "src", dist_root = "dist") => {
+export const src2dist = (path, src_root = "src", dist_root = "dest") => {
   return path.replace(src_root, dist_root)
 }
 
+/**
+ * 拡張子をpugからhtmlに変更
+ * @param {string} file
+ */
 export const pug2html = (file) => {
   return file.replace(".pug", ".html")
 }
 
-export const get_dist = (path, src_root, dist_root) => {
+export const get_dist_file_path = (path, src_root, dist_root) => {
   path = src2dist(path, src_root, dist_root)
   path = pug2html(path)
   return path
 }
 
-const test = async () => {
+const main = async () => {
   console.log("start 🚀")
-  /**
-   * @type Options
-   */
-  const option = { pretty: true }
 
   glob("./src/pug/**/*.pug", (err, files) => {
     files.forEach((file) => {
       if (file.match(/(components|layouts)/)) return
-      const dir = src2dist(file, "src/pug", "dist")
-      pug_compiler(file, dir, option)
+      const dist_file = get_dist_file_path(file, "src/pug")
+      /**
+       * @type Options
+       */
+      const options = { pretty: true, filename: file }
+      console.log(`${file} -> ${dist_file}`)
+      pug_compiler(file, dist_file, options)
     })
   })
   console.log("completed 🎉")
 }
+
+main()

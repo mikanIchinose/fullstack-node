@@ -6,6 +6,7 @@ import server from "live-server"
 const params = {
   port: 3000,
   root: "./dist",
+  mount: [["/public", "./public/"]],
   open: true,
   wait: 1000,
 }
