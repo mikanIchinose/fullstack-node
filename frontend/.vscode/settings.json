@@ -2,5 +2,11 @@
   "puglint.enable": true,
   "puglint.config": {
     "extends": "@gabegabegabe/pug-lint-config"
-  }
+  },
+  "cSpell.words": ["gabegabegabe", "tailwindcss"],
+  "tailwindCSS.includeLanguages": {
+    "plaintext": "pug"
+  },
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.experimental.classRegex": ["class=[\"']([^\"']*)[\"']"]
 }
