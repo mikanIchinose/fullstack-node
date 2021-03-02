@@ -55,7 +55,7 @@ export const is_pug_file = (file) => {
  * src2dist("./src/pug/pages/blog.pug")
  * // => ./dist/pages/blog.pug
  */
-export const src2dist = (path, src_root = "src", dist_root = "dest") => {
+export const src2dist = (path, src_root = "src", dist_root = "dist") => {
   return path.replace(src_root, dist_root)
 }
 
