@@ -5,11 +5,7 @@
 import { promises as fs } from "fs"
 import fse from "fs-extra"
 import pug from "pug"
-import path from "path"
 import glob from "glob"
-
-let src = "./src/index.pug"
-let dist = "./dist/index.html"
 
 /**
  * pug -> html
