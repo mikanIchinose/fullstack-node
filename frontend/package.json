@@ -15,7 +15,26 @@
     "clean:css": "rimraf dist/*.css dist/**/*.css"
   },
   "prettier": {
-    "semi": false
+    "semi": false,
+    "trailingComma": "es5",
+    "singleQuote": true
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true,
+      "jest": true,
+      "es2021": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "prettier"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 12,
+      "sourceType": "module"
+    },
+    "rules": {}
   },
   "babel": {
     "presets": [
