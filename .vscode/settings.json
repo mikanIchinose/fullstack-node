@@ -1,9 +1,4 @@
 {
-  "cSpell.words": [
-    "metatype",
-    "nestjs",
-    "prebuild",
-    "vite",
-    "vitejs"
-  ]
+  "cSpell.words": ["metatype", "nestjs", "prebuild", "vite", "vitejs"],
+  "liveServer.settings.root": "/frontend/src/"
 }
