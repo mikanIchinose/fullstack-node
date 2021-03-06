@@ -15,6 +15,10 @@ export class CatsService {
     return this.cats;
   }
 
+  findByName(name: string): Cat[] {
+    return this.cats.filter((cat) => cat.name === name);
+  }
+
   findNames(): string[] {
     return this.findAll().map((cat) => cat.name);
   }

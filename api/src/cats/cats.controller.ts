@@ -16,8 +16,8 @@ import { CreateCatDto } from './dto/create-cat.dto';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 
-@UseGuards(RolesGuard)
 @Controller('cats')
+@UseGuards(RolesGuard)
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
@@ -33,8 +33,10 @@ export class CatsController {
     return this.catsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: number) {}
+  @Get(':name')
+  findOne(@Param('name') name: string) {
+    return this.catsService.findByName(name);
+  }
 
   @Get('name')
   findName(@Query('name') name: string): Array<string> {
