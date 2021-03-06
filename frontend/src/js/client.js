@@ -1,4 +1,6 @@
+const API_URL = 'http://localhost:3000'
+
 export const client = async () => {
-  let res = await fetch("http://localhost:3000");
-  return res.json();
-};
+  let res = await fetch(API_URL)
+  return res.json()
+}

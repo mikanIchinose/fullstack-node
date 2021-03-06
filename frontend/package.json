@@ -1,14 +1,16 @@
 {
   "name": "frontend",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "lint": "xo",
     "test": "jest",
-    "dev:pug": "run-p serve watch",
-    "serve": "node ./server.mjs",
-    "compile:pug": "node ./compiler.mjs",
-    "build:css": "tailwindcss-cli build ./src/style/tailwind.css -o ./public/css/tailwind.css",
-    "watch": "onchange 'src/pug/**/*' -- yarn compile:pug",
+    "dev": "run-p serve watch",
+    "serve": "node server.js",
+    "compile:pug": "node index.js",
+    "build:css": "tailwindcss-cli build src/style/tailwind.css -o public/css/tailwind.css",
+    "copy:js": "cpx \"src/js/*.js\" dist/js",
+    "watch": "onchange 'src/**/*' -- yarn run-p compile:pug copy:js",
     "clean": "rimraf dist",
     "clean:html": "rimraf dist/*.html dist/**/*.html",
     "clean:js": "rimraf dist/*.js dist/**/*.js",
@@ -48,6 +50,22 @@
       ]
     ]
   },
+  "jest": {
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|js?|tsx?|ts?)$",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.mjs$": "babel-jest"
+    },
+    "testPathIgnorePatterns": [
+      "<rootDir>/build/",
+      "<rootDir>/node_modules/"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "mjs"
+    ]
+  },
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/preset-env": "^7.12.16",
@@ -71,5 +89,8 @@
     "rimraf": "^3.0.2",
     "tailwindcss": "^2.0.3",
     "tailwindcss-cli": "^0.1.2"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0"
   }
 }

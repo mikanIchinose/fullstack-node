@@ -2,10 +2,10 @@
  * 型定義
  * @typedef {import('pug').Options} Options
  */
-import { promises as fs } from "fs"
-import fse from "fs-extra"
-import pug from "pug"
-import glob from "glob"
+import { promises as fs } from 'fs'
+import fse from 'fs-extra'
+import pug from 'pug'
+import glob from 'glob'
 
 /**
  * pug -> html
@@ -23,7 +23,7 @@ export const pug_compiler = async (input_file, output_file, options = {}) => {
   try {
     const file_status = await fs.lstat(input_file)
     if (file_status.isFile() && is_pug_file(input_file)) {
-      const input_pug = await fs.readFile(input_file, "utf-8")
+      const input_pug = await fs.readFile(input_file, 'utf-8')
       const html = pug.render(input_pug, options)
       await fse.outputFile(output_file, html)
     }
@@ -55,7 +55,7 @@ export const is_pug_file = (file) => {
  * src2dist("./src/pug/pages/blog.pug")
  * // => ./dist/pages/blog.pug
  */
-export const src2dist = (path, src_root = "src", dist_root = "dist") => {
+export const src2dist = (path, src_root = 'src', dist_root = 'dist') => {
   return path.replace(src_root, dist_root)
 }
 
@@ -64,7 +64,7 @@ export const src2dist = (path, src_root = "src", dist_root = "dist") => {
  * @param {string} file
  */
 export const pug2html = (file) => {
-  return file.replace(".pug", ".html")
+  return file.replace('.pug', '.html')
 }
 
 export const get_dist_file_path = (path, src_root, dist_root) => {
@@ -73,13 +73,13 @@ export const get_dist_file_path = (path, src_root, dist_root) => {
   return path
 }
 
-const main = async () => {
-  console.log("start 🚀")
+export const main = () => {
+  console.log('start 🚀')
 
-  glob("./src/pug/**/*.pug", (err, files) => {
+  glob('./src/pug/**/*.pug', (err, files) => {
     files.forEach((file) => {
       if (file.match(/(components|layouts)/)) return
-      const dist_file = get_dist_file_path(file, "src/pug")
+      const dist_file = get_dist_file_path(file, 'src/pug')
       /**
        * @type Options
        */
@@ -88,7 +88,5 @@ const main = async () => {
       pug_compiler(file, dist_file, options)
     })
   })
-  console.log("completed 🎉")
+  console.log('completed 🎉')
 }
-
-main()
